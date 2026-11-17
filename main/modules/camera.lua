@@ -1,7 +1,7 @@
 local Camera = {
 	x = 0,
 	y = 0,
-	zoom = 1.4,
+	zoom = 2,
 	rotation = 0,
 	view_w = 640,
 	view_h = 360

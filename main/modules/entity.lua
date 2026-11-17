@@ -53,6 +53,7 @@ function Entity:new(data)
 		colour = default(data.colour, class.colour or {1, 1, 1, 1}),
 		friction = default(data.friction, class.friction or 200),
 		rotation = default(data.rotation, 0),
+		look_dir = {x = 0, y = 0},
 		type = default(data.type, class.type),
 		class = class,
 		owner = data.owner,
@@ -68,6 +69,7 @@ function Entity:new(data)
 	end
 
 	function entity:render()
+		Renderer:create_eyes(self)
 		Renderer:create_shape(self.dimensions.width, self.dimensions.height, self.pos.x, self.pos.y, self.rotation + math.pi/2, self.colour)
 	end
 
@@ -191,6 +193,8 @@ function Entity:new(data)
 
 		if magnitude > 0 then
 			self:look_at(self.velocity.x / magnitude, self.velocity.y / magnitude, dt)
+		else
+			self:look_at(0, 0, dt)
 		end
 	end
 

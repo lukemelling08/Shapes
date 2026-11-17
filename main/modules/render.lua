@@ -44,6 +44,31 @@ function Renderer:clear()
 	self.vertices = {}
 end
 
+function Renderer:create_eyes(entity)
+	local w = entity.dimensions.width
+	local h = entity.dimensions.height
+
+	local eye_area = 0.1
+	local eye_h = h * 0.4
+	local eye_w = (w * h * eye_area) / eye_h
+
+	local spacing = w * 0.2
+
+	-- how far the eyes can shift without leaving the body
+	local max_offset_x = w / 2 - spacing - eye_w / 2
+	local max_offset_y = h / 2 - eye_h / 2
+
+	local offset_x = entity.look_dir.x * max_offset_x
+	local offset_y = entity.look_dir.y * max_offset_y
+
+	for _, side in ipairs({-1, 1}) do
+		local eye_x = entity.pos.x + side * spacing + offset_x
+		local eye_y = entity.pos.y + offset_y
+
+		self:create_shape(eye_w, eye_h, eye_x, eye_y, 0, {0, 0, 0, 1})
+	end
+end
+
 function Renderer:create_shape(width, height, x, y, rotation, colour)
 	local half_w = width / 2
 	local half_h = height / 2
