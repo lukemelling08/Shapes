@@ -2,9 +2,52 @@
   :code {
     :breakpoints [
     ]
+    :find {
+      :term "face"
+    }
   }
   :scene {
     :resource-settings {
     }
+  }
+  :workflow {
+    :open-tabs [
+      [
+        [
+          "/main/modules/debris.lua"
+          :code
+        ]
+        [
+          "/main/modules/render.lua"
+          :code
+        ]
+        [
+          "/main/modules/input_handler.lua"
+          :code
+        ]
+        [
+          "/main/modules/entity.lua"
+          :code
+        ]
+      ]
+    ]
+    :recent-files [
+      [
+        "/main/modules/debris.lua"
+        :code
+      ]
+      [
+        "/main/modules/input_handler.lua"
+        :code
+      ]
+      [
+        "/main/modules/entity.lua"
+        :code
+      ]
+      [
+        "/main/modules/render.lua"
+        :code
+      ]
+    ]
   }
 }

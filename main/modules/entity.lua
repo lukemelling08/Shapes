@@ -125,14 +125,14 @@ function Entity:new(data)
 		self.rotation = math.atan2(dy, dx)
 	end
 
+	function entity:look_at(dx, dy, dt)
+		local t = math.min(1, 10 * dt)
+		self.look_dir.x = self.look_dir.x + (dx - self.look_dir.x) * t
+		self.look_dir.y = self.look_dir.y + (dy - self.look_dir.y) * t
+	end
 
 	function entity:update_pos(dt)
 		if self == Entity.vip.player then
-			if InputHandler.mouse.x ~= nil and InputHandler.mouse.y ~= nil then
-				local mouse_pos = Camera:screen_to_world(InputHandler.mouse.x, InputHandler.mouse.y)
-				self:face(mouse_pos.x, mouse_pos.y)
-			end
-			
 			local speed = self.acceleration.speed
 			if (not InputHandler.keys[hash("a")] and not InputHandler.keys[hash("d")])
 			or (InputHandler.keys[hash("a")] and InputHandler.keys[hash("d")]) then
@@ -187,6 +187,10 @@ function Entity:new(data)
 			local scale = max_speed / magnitude
 			self.velocity.x = self.velocity.x * scale
 			self.velocity.y = self.velocity.y * scale
+		end
+
+		if magnitude > 0 then
+			self:look_at(self.velocity.x / magnitude, self.velocity.y / magnitude, dt)
 		end
 	end
 

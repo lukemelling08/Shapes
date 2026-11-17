@@ -1,4 +1,9 @@
 {
+  "project_git" : {
+    "sha1" : "66cf775bae11512548d15dbba1595fa12fe6f2eb",
+    "origin" : "https://github.com/lukemelling08/Shapes.git",
+    "branch" : "character-eyes"
+  },
   "bob_arguments" : {
     "sha1" : "d295ed4edff2e49072719835713e625f409849f1",
     "version" : "1.14.0",
