@@ -1,0 +1,30 @@
+[bootstrap]
+main_collection = /main/main.collectionc
+render = /main/render/custom.renderc
+
+[script]
+shared_state = 1
+
+[display]
+width = 960
+height = 960
+high_dpi = 1
+
+[android]
+input_method = HiddenInputField
+
+[physics]
+gravity_y = -1000.0
+scale = 0.01
+
+[html5]
+scale_mode = stretch
+show_made_with_defold = 0
+show_fullscreen_button = 0
+
+[project]
+title = shapes
+
+[engine]
+fixed_update_frequency = 240
+

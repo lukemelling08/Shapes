@@ -1,0 +1,23 @@
+name: "main"
+scale_along_z: 0
+embedded_instances {
+  id: "game_controller"
+  data: "components {\n"
+  "  id: \"game\"\n"
+  "  component: \"/main/scripts/game.script\"\n"
+  "}\n"
+  ""
+}
+embedded_instances {
+  id: "renderer"
+  data: "embedded_components {\n"
+  "  id: \"mesh\"\n"
+  "  type: \"mesh\"\n"
+  "  data: \"material: \\\"/assets/character/character.material\\\"\\n"
+  "vertices: \\\"/assets/character/character.buffer\\\"\\n"
+  "position_stream: \\\"position\\\"\\n"
+  "normal_stream: \\\"normal\\\"\\n"
+  "\"\n"
+  "}\n"
+  ""
+}
