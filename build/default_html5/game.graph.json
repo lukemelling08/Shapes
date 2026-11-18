@@ -1,0 +1,117 @@
+[ {
+  "path" : "/<AnonymousRoot>",
+  "hexDigest" : null,
+  "children" : [ "/main/main.collectionc", "/main/render/custom.renderc", "/input/game.input_bindingc", "/builtins/input/default.gamepadsc", "/builtins/render/default.display_profilesc", "/builtins/scripts/debugger.luac" ]
+}, {
+  "path" : "/main/main.collectionc",
+  "hexDigest" : "2c6e9e9c596c398482806a9bb789f6c8149cab1c",
+  "children" : [ "/_generated_4b8b5b378227b303.goc", "/_generated_792e1439f2018cc4.goc" ]
+}, {
+  "path" : "/_generated_4b8b5b378227b303.goc",
+  "hexDigest" : "23da028770165ac823403fd5d4568f943567f862",
+  "children" : [ "/main/scripts/game.scriptc" ]
+}, {
+  "path" : "/main/scripts/game.scriptc",
+  "hexDigest" : "596109daa44f03f8597b136c7029eff468b9a24e",
+  "children" : [ "/main/modules/entity.luac", "/main/modules/render.luac", "/main/modules/camera.luac", "/main/modules/input_handler.luac", "/main/modules/entity_type.luac", "/main/modules/projectile.luac", "/main/modules/entity_class.luac", "/main/modules/collision.luac", "/main/modules/debris.luac", "/main/modules/world.luac" ]
+}, {
+  "path" : "/main/modules/entity.luac",
+  "hexDigest" : "e5df2df361c9ab969c41185e409a33fab7f61056",
+  "children" : [ "/main/modules/render.luac", "/main/modules/input_handler.luac", "/main/modules/camera.luac", "/main/modules/entity_type.luac", "/main/modules/debris.luac", "/main/modules/entity_class.luac" ]
+}, {
+  "path" : "/main/modules/render.luac",
+  "hexDigest" : "aa4d6f4ee03691c1f0a392f5555b6b1143887980",
+  "children" : [ "/main/modules/entity_type.luac", "/main/modules/projectile_type.luac" ]
+}, {
+  "path" : "/main/modules/entity_type.luac",
+  "hexDigest" : "523ebacdbc8f605105638f21091b65e5555623b5",
+  "children" : [ ]
+}, {
+  "path" : "/main/modules/projectile_type.luac",
+  "hexDigest" : "e2d8b9d96e12019e8c5f755c857a92eb6f250be2",
+  "children" : [ ]
+}, {
+  "path" : "/main/modules/input_handler.luac",
+  "hexDigest" : "c006cf7b5378ae2abc9df21f836d050275335a2e",
+  "children" : [ "/main/modules/camera.luac" ]
+}, {
+  "path" : "/main/modules/camera.luac",
+  "hexDigest" : "6eb9b3ffa9999b6b9eb29fe17156fccc203210f1",
+  "children" : [ ]
+}, {
+  "path" : "/main/modules/debris.luac",
+  "hexDigest" : "d7599ebf036d2f726aff87e5089a3ad858f62045",
+  "children" : [ "/main/modules/render.luac" ]
+}, {
+  "path" : "/main/modules/entity_class.luac",
+  "hexDigest" : "5608ee9bbe1c55b43cbbe69d798b4c52879e75c2",
+  "children" : [ "/main/modules/entity_type.luac" ]
+}, {
+  "path" : "/main/modules/projectile.luac",
+  "hexDigest" : "717f83a4e8727342ae2403a35cf59cd0c16c353e",
+  "children" : [ "/main/modules/entity.luac", "/main/modules/entity_type.luac", "/main/modules/entity_class.luac", "/main/modules/camera.luac" ]
+}, {
+  "path" : "/main/modules/collision.luac",
+  "hexDigest" : "71b706b1ffb88d5e1d944baf3c18fb87b8b94b8d",
+  "children" : [ "/main/modules/entity.luac", "/main/modules/entity_class.luac" ]
+}, {
+  "path" : "/main/modules/world.luac",
+  "hexDigest" : "b06193d16ade0a502cfd5a176a03c87e19ee82a6",
+  "children" : [ ]
+}, {
+  "path" : "/_generated_792e1439f2018cc4.goc",
+  "hexDigest" : "a57209f1c689ded23897ef3fd6bfa93c878f1295",
+  "children" : [ "/_generated_ee9a7f8674b22d37.meshc" ]
+}, {
+  "path" : "/_generated_ee9a7f8674b22d37.meshc",
+  "hexDigest" : "2cbbbcdf7d6b41e370c39e2043b64cbf74e5ae1e",
+  "children" : [ "/assets/character/character.materialc", "/assets/character/character.bufferc" ]
+}, {
+  "path" : "/assets/character/character.materialc",
+  "hexDigest" : "4595f59e7798119854ae5a461a4c79a719d2a478",
+  "children" : [ "/shader_-1651036121687084896.spc" ]
+}, {
+  "path" : "/shader_-1651036121687084896.spc",
+  "hexDigest" : "7eee2a96bacb1b598cdbc0903d102a6c31ea8634",
+  "children" : [ ]
+}, {
+  "path" : "/assets/character/character.bufferc",
+  "hexDigest" : "6d6b7c8e0b609c191ccc711ef92dd1392b75f71f",
+  "children" : [ ]
+}, {
+  "path" : "/main/render/custom.renderc",
+  "hexDigest" : "c93e62acc49e1b5a2d4a974ab3999a05ee21636f",
+  "children" : [ "/main/render/custom.render_scriptc" ]
+}, {
+  "path" : "/main/render/custom.render_scriptc",
+  "hexDigest" : "12b2f91c74e5eb0155124c9d268dd58d77747876",
+  "children" : [ ]
+}, {
+  "path" : "/input/game.input_bindingc",
+  "hexDigest" : "68ebd8bb37d5abd2c56c3b63a2ff90fd2c5ee8bc",
+  "children" : [ ]
+}, {
+  "path" : "/builtins/input/default.gamepadsc",
+  "hexDigest" : "2e53741aa7c7cd588b25b758a0461d0eb8bd0ba2",
+  "children" : [ ]
+}, {
+  "path" : "/builtins/render/default.display_profilesc",
+  "hexDigest" : "4187e11a10b0dd0d7f1b34d3ae3c0e9632dc69fd",
+  "children" : [ ]
+}, {
+  "path" : "/builtins/scripts/debugger.luac",
+  "hexDigest" : "3364f0d27ea6182a8b15da47b5c021423828ce45",
+  "children" : [ "/builtins/scripts/edn.luac", "/builtins/scripts/mobdebug.luac" ]
+}, {
+  "path" : "/builtins/scripts/edn.luac",
+  "hexDigest" : "0b219c80b1aca8d43d95a96fb151893f28667f68",
+  "children" : [ ]
+}, {
+  "path" : "/builtins/scripts/mobdebug.luac",
+  "hexDigest" : "cf91ad784c0cb1bd25bc4e08ec57a0e9a09ca99d",
+  "children" : [ "/builtins/scripts/socket.luac", "/builtins/scripts/edn.luac" ]
+}, {
+  "path" : "/builtins/scripts/socket.luac",
+  "hexDigest" : "5044952c3e1a3083755fda1f06b85214468e555c",
+  "children" : [ ]
+} ]

@@ -13,9 +13,9 @@ local fixed_dt = 1 / sys.get_config_int("engine.fixed_update_frequency", 60)
 function init(self)
 	msg.post(".", "acquire_input_focus")
 	Renderer:init(msg.url("/renderer#mesh"))
-	self.player = Entity:new({type=EntityType.PLAYER, pos={x=0,y=0}})
+	self.player = Entity:new({class=EntityClass.PLAYER, pos={x=0,y=0}})
 	Entity.vip.player = self.player
-	local player2 = Entity:new({type=EntityType.PLAYER, pos={x=30,y=0}, velocity = {x = 3000, y = 900}, friction = 0.1})
+	local player2 = Entity:new({class=EntityClass.PLAYER, pos={x=30,y=0}, velocity = {x = 3000, y = 900}, friction = 0.1})
 	Camera:follow(self.player)
 end
 

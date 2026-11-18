@@ -22,7 +22,21 @@ function Entity:new(data)
 		return value
 	end
 
-	local class = data.class or {}
+	local function deep_copy(original)
+		local copy = {}
+
+		for key, value in pairs(original) do
+			if type(value) == "table" then
+				copy[key] = deep_copy(value)
+			else
+				copy[key] = value
+			end
+		end
+
+		return copy
+	end
+
+	local class = deep_copy(data.class or {})
 
 	local entity = {
 		id = Entity.next_id,
@@ -53,6 +67,7 @@ function Entity:new(data)
 		colour = default(data.colour, class.colour or {1, 1, 1, 1}),
 		friction = default(data.friction, class.friction or 200),
 		rotation = default(data.rotation, 0),
+		has_eyes = default(data.has_eyes, class.has_eyes or false),
 		look_dir = {x = 0, y = 0},
 		type = default(data.type, class.type),
 		class = class,
@@ -69,7 +84,9 @@ function Entity:new(data)
 	end
 
 	function entity:render()
-		Renderer:create_eyes(self)
+		if self.has_eyes then
+			Renderer:create_eyes(self)
+		end
 		Renderer:create_shape(self.dimensions.width, self.dimensions.height, self.pos.x, self.pos.y, self.rotation + math.pi/2, self.colour)
 	end
 
@@ -191,9 +208,9 @@ function Entity:new(data)
 			self.velocity.y = self.velocity.y * scale
 		end
 
-		if magnitude > 0 then
+		if magnitude > 0 and self.has_eyes then
 			self:look_at(self.velocity.x / magnitude, self.velocity.y / magnitude, dt)
-		else
+		elseif self.has_eyes then
 			self:look_at(0, 0, dt)
 		end
 	end
