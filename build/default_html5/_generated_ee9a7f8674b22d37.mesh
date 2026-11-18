@@ -1,4 +1,0 @@
-material: "/assets/character/character.material"
-vertices: "/assets/character/character.buffer"
-position_stream: "position"
-normal_stream: "normal"
