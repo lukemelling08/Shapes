@@ -72,7 +72,7 @@ end
 function Renderer:create_aim_indicator(entity)
 	local distance = 12
 	local size = 2
-	local spread = 3
+	local spread = 2
 	local colour = {0, 181 / 255, 1, 0.7}
 
 	local angle = entity.aim_rotation
@@ -84,14 +84,14 @@ function Renderer:create_aim_indicator(entity)
 	local centre_x = entity.pos.x + forward_x * distance
 	local centre_y = entity.pos.y + forward_y * distance
 
-	self:create_shape(size, size, centre_x, centre_y, 0, colour)
+	self:create_shape(size, size, centre_x, centre_y, angle, colour)
 
 	for _, side in ipairs({-1, 1}) do
 		self:create_shape(
 			size, size,
 			centre_x - forward_x * spread + perpendicular_x * spread * side,
 			centre_y - forward_y * spread + perpendicular_y * spread * side,
-			0, colour
+			angle, colour
 		)
 	end
 end
