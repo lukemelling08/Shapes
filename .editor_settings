@@ -2,9 +2,60 @@
   :code {
     :breakpoints [
     ]
+    :find {
+      :term "rotation"
+    }
   }
   :scene {
     :resource-settings {
     }
+  }
+  :workflow {
+    :open-tabs [
+      [
+        [
+          "/main/modules/debris.lua"
+          :code
+        ]
+        [
+          "/main/modules/input_handler.lua"
+          :code
+        ]
+        [
+          "/main/modules/entity.lua"
+          :code
+        ]
+        [
+          "/main/modules/render.lua"
+          :code
+        ]
+        [
+          "/main/modules/camera.lua"
+          :code
+        ]
+      ]
+    ]
+    :recent-files [
+      [
+        "/main/modules/input_handler.lua"
+        :code
+      ]
+      [
+        "/main/modules/debris.lua"
+        :code
+      ]
+      [
+        "/main/modules/camera.lua"
+        :code
+      ]
+      [
+        "/main/modules/render.lua"
+        :code
+      ]
+      [
+        "/main/modules/entity.lua"
+        :code
+      ]
+    ]
   }
 }
