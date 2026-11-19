@@ -1,0 +1,12 @@
+# Defold build files
+/build/
+
+# Internal editor files
+/.internal/
+
+# Editor settings
+/.editor_settings
+
+# OS files
+.DS_Store
+Thumbs.db

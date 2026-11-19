@@ -22,7 +22,21 @@ function Entity:new(data)
 		return value
 	end
 
-	local class = data.class or {}
+	local function deep_copy(original)
+		local copy = {}
+
+		for key, value in pairs(original) do
+			if type(value) == "table" then
+				copy[key] = deep_copy(value)
+			else
+				copy[key] = value
+			end
+		end
+
+		return copy
+	end
+
+	local class = deep_copy(data.class or {})
 
 	local entity = {
 		id = Entity.next_id,
@@ -53,6 +67,8 @@ function Entity:new(data)
 		colour = default(data.colour, class.colour or {1, 1, 1, 1}),
 		friction = default(data.friction, class.friction or 200),
 		rotation = default(data.rotation, 0),
+		aim_rotation = math.pi /2,
+		has_eyes = default(data.has_eyes, class.has_eyes or false),
 		look_dir = {x = 0, y = 0},
 		type = default(data.type, class.type),
 		class = class,
@@ -69,7 +85,12 @@ function Entity:new(data)
 	end
 
 	function entity:render()
-		Renderer:create_eyes(self)
+		if self == Entity.vip.player then
+			Renderer:create_aim_indicator(self)
+		end
+		if self.has_eyes then
+			Renderer:create_eyes(self)
+		end
 		Renderer:create_shape(self.dimensions.width, self.dimensions.height, self.pos.x, self.pos.y, self.rotation + math.pi/2, self.colour)
 	end
 
@@ -127,6 +148,12 @@ function Entity:new(data)
 		self.rotation = math.atan2(dy, dx)
 	end
 
+	function entity:aim(x, y)
+		local dx = x - self.pos.x
+		local dy = y - self.pos.y
+		self.aim_rotation = math.atan2(dy, dx)
+	end
+
 	function entity:look_at(dx, dy, dt)
 		local t = math.min(1, 10 * dt)
 		self.look_dir.x = self.look_dir.x + (dx - self.look_dir.x) * t
@@ -135,6 +162,11 @@ function Entity:new(data)
 
 	function entity:update_pos(dt)
 		if self == Entity.vip.player then
+			if InputHandler.mouse.x ~= nil and InputHandler.mouse.y ~= nil then
+				local mouse_pos = Camera:screen_to_world(InputHandler.mouse.x, InputHandler.mouse.y)
+				self:aim(mouse_pos.x, mouse_pos.y)
+			end
+			
 			local speed = self.acceleration.speed
 			if (not InputHandler.keys[hash("a")] and not InputHandler.keys[hash("d")])
 			or (InputHandler.keys[hash("a")] and InputHandler.keys[hash("d")]) then
@@ -191,9 +223,9 @@ function Entity:new(data)
 			self.velocity.y = self.velocity.y * scale
 		end
 
-		if magnitude > 0 then
+		if magnitude > 0 and self.has_eyes then
 			self:look_at(self.velocity.x / magnitude, self.velocity.y / magnitude, dt)
-		else
+		elseif self.has_eyes then
 			self:look_at(0, 0, dt)
 		end
 	end
