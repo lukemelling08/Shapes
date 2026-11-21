@@ -215,6 +215,16 @@ function Entity:new(data)
 		local max_speed = self.speed.base
 		if self == Entity.vip.player then
 			max_speed = (sprinting and self.speed.max) or self.speed.base
+			local dampening = 0.3
+
+			if sprinting then
+				local speed_ratio = self.speed.max / self.speed.base
+				local zoom_multiplier = 1 + (speed_ratio - 1) * dampening
+
+				Camera:set_target_zoom(Camera.default_zoom / zoom_multiplier)
+			else
+				Camera:set_target_zoom(Camera.default_zoom)
+			end
 		end
 
 		if magnitude > max_speed then
