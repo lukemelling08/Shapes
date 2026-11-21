@@ -73,7 +73,8 @@ function Entity:new(data)
 		type = default(data.type, class.type),
 		class = class,
 		owner = data.owner,
-		lifetime = data.lifetime or -1
+		lifetime = data.lifetime or -1,
+		sword_offset_x = 1
 	}
 
 	function entity:register()
@@ -84,9 +85,10 @@ function Entity:new(data)
 		Entity.active[self.id] = nil
 	end
 
-	function entity:render()
+	function entity:render(dt)
 		if self == Entity.vip.player then
 			Renderer:create_aim_indicator(self)
+			Renderer:draw_sword(self, dt)
 		end
 		if self.has_eyes then
 			Renderer:create_eyes(self)

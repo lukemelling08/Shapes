@@ -70,7 +70,7 @@ function Renderer:create_eyes(entity)
 end
 
 function Renderer:create_aim_indicator(entity)
-	local distance = 12
+	local distance = 14
 	local size = 2
 	local spread = 2
 	local colour = {0, 181 / 255, 1, 0.7}
@@ -122,6 +122,65 @@ function Renderer:create_shape(width, height, x, y, rotation, colour)
 			position = {world_x, world_y, 0},
 			colour = colour
 		})
+	end
+end
+
+function Renderer:draw_sword(entity, dt)
+	local size = 1
+	local handle_colour = {0.45, 0.25, 0.12, 1}
+	local blade_colour = {1, 1, 1, 1}
+
+	local facing = math.cos(entity.aim_rotation) < 0 and -1 or 1
+
+	local sword_length = 8 * size
+	local target_offset = facing * (
+		entity.dimensions.width / 2 + sword_length *0.25
+	)
+
+	entity.sword_offset_x = entity.sword_offset_x or target_offset
+	entity.sword_offset_x = entity.sword_offset_x
+	+ (target_offset - entity.sword_offset_x) * math.min(1, 12 * dt)
+
+	local angle = math.pi * 2
+	local cos = math.cos(angle)
+	local sin = math.sin(angle)
+
+	local offset_y = -entity.dimensions.height * 0.3
+
+	local origin_x = entity.pos.x + entity.sword_offset_x
+	local origin_y = entity.pos.y + offset_y
+
+	-- Handle
+	for i = 0, 2 do
+		local x = 0
+		local y = size * i
+
+		self:create_shape(size, size,
+			origin_x + x * cos - y * sin,
+			origin_y + x * sin + y * cos,
+			angle, handle_colour)
+	end
+
+	-- Guard
+	for _, side in ipairs({-1, 1}) do
+		local x = side * size
+		local y = size * 2
+
+		self:create_shape(size, size,
+			origin_x + x * cos - y * sin,
+			origin_y + x * sin + y * cos,
+			angle, handle_colour)
+	end
+
+	-- Blade
+	for i = 3, 7 do
+		local x = 0
+		local y = size * i
+
+		self:create_shape(size, size,
+			origin_x + x * cos - y * sin,
+			origin_y + x * sin + y * cos,
+			angle, blade_colour)
 	end
 end
 

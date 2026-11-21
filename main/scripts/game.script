@@ -49,7 +49,7 @@ function update(self, dt)
 	
 	Renderer:clear()
 	for _, entity in pairs(Entity.active) do
-		entity:render()
+		entity:render(dt)
 	end
 	Debris:render()
 	Renderer:flush()
