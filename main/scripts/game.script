@@ -7,15 +7,16 @@ local Projectile = require("main.modules.projectile")
 local EntityClass = require("main.modules.entity_class")
 local Collision = require("main.modules.collision")
 local Debris = require("main.modules.debris")
+local ItemClass = require("main.modules.items.item_class")
 
 local fixed_dt = 1 / sys.get_config_int("engine.fixed_update_frequency", 60)
 
 function init(self)
 	msg.post(".", "acquire_input_focus")
 	Renderer:init(msg.url("/renderer#mesh"))
-	self.player = Entity:new({class=EntityClass.PLAYER, pos={x=0,y=0}})
+	self.player = Entity:new({class=EntityClass.PLAYER, pos={x=0,y=0}, holding="AXE"})
 	Entity.vip.player = self.player
-	local player2 = Entity:new({class=EntityClass.PLAYER, pos={x=30,y=0}, velocity = {x = 3000, y = 900}, friction = 0.1})
+	local player2 = Entity:new({class=EntityClass.PLAYER, pos={x=30,y=0}, velocity = {x = 3000, y = 900}, friction = 0.1, holding="APPLE"})
 	Camera:follow(self.player)
 end
 

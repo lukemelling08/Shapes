@@ -11,6 +11,7 @@ local Camera = require("main.modules.camera")
 local EntityType = require("main.modules.entity_type")
 local Debris = require("main.modules.debris")
 local EntityClass = require("main.modules.entity_class")
+local DrawItems = require("main.modules.items.draw_items")
 
 function Entity:new(data)
 	data = data or {}
@@ -74,7 +75,8 @@ function Entity:new(data)
 		class = class,
 		owner = data.owner,
 		lifetime = data.lifetime or -1,
-		sword_offset_x = 1
+		sword_offset_x = 1,
+		holding = data.holding
 	}
 
 	function entity:register()
@@ -88,12 +90,14 @@ function Entity:new(data)
 	function entity:render(dt)
 		if self == Entity.vip.player then
 			Renderer:create_aim_indicator(self)
-			Renderer:draw_sword(self, dt)
 		end
 		if self.has_eyes then
 			Renderer:create_eyes(self)
 		end
 		Renderer:create_shape(self.dimensions.width, self.dimensions.height, self.pos.x, self.pos.y, self.rotation + math.pi/2, self.colour)
+		if self.holding then
+			DrawItems:draw_item(Renderer, self, self.holding, dt)
+		end
 	end
 
 	function entity:set_pos(x, y)
