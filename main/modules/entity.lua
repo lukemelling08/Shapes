@@ -11,6 +11,7 @@ local Camera = require("main.modules.camera")
 local EntityType = require("main.modules.entity_type")
 local Debris = require("main.modules.debris")
 local EntityClass = require("main.modules.entity_class")
+local DrawItems = require("main.modules.items.draw_items")
 
 function Entity:new(data)
 	data = data or {}
@@ -73,7 +74,9 @@ function Entity:new(data)
 		type = default(data.type, class.type),
 		class = class,
 		owner = data.owner,
-		lifetime = data.lifetime or -1
+		lifetime = data.lifetime or -1,
+		sword_offset_x = 1,
+		holding = data.holding
 	}
 
 	function entity:register()
@@ -84,7 +87,7 @@ function Entity:new(data)
 		Entity.active[self.id] = nil
 	end
 
-	function entity:render()
+	function entity:render(dt)
 		if self == Entity.vip.player then
 			Renderer:create_aim_indicator(self)
 		end
@@ -92,6 +95,9 @@ function Entity:new(data)
 			Renderer:create_eyes(self)
 		end
 		Renderer:create_shape(self.dimensions.width, self.dimensions.height, self.pos.x, self.pos.y, self.rotation + math.pi/2, self.colour)
+		if self.holding then
+			DrawItems:draw_item(Renderer, self, self.holding, dt)
+		end
 	end
 
 	function entity:set_pos(x, y)
@@ -215,6 +221,16 @@ function Entity:new(data)
 		local max_speed = self.speed.base
 		if self == Entity.vip.player then
 			max_speed = (sprinting and self.speed.max) or self.speed.base
+			local dampening = 0.3
+
+			if sprinting then
+				local speed_ratio = self.speed.max / self.speed.base
+				local zoom_multiplier = 1 + (speed_ratio - 1) * dampening
+
+				Camera:set_target_zoom(Camera.default_zoom / zoom_multiplier)
+			else
+				Camera:set_target_zoom(Camera.default_zoom)
+			end
 		end
 
 		if magnitude > max_speed then

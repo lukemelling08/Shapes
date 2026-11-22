@@ -1,7 +1,12 @@
+local DEFAULT_ZOOM = 3
+
 local Camera = {
 	x = 0,
 	y = 0,
-	zoom = 2,
+	default_zoom = DEFAULT_ZOOM,
+	zoom = DEFAULT_ZOOM,
+	target_zoom = DEFAULT_ZOOM,
+	previous_frame_zoom = DEFAULT_ZOOM,
 	rotation = 0,
 	view_w = 640,
 	view_h = 360
@@ -19,6 +24,10 @@ end
 
 function Camera:set_zoom(zoom)
 	self.zoom = math.max(0.1, zoom)
+end
+
+function Camera:set_target_zoom(zoom)
+	self.target_zoom = math.max(0.1, zoom)
 end
 
 function Camera:set_rotation(rotation)
@@ -43,6 +52,7 @@ function Camera:update(dt)
 
 		self.x = self.x + (self.target.pos.x - self.x) * lerp
 		self.y = self.y + (self.target.pos.y - self.y) * lerp
+		self.zoom = self.zoom + (self.target_zoom - self.zoom) * lerp
 	end
 	local width, height = window.get_size()
 

@@ -70,7 +70,7 @@ function Renderer:create_eyes(entity)
 end
 
 function Renderer:create_aim_indicator(entity)
-	local distance = 12
+	local distance = 14
 	local size = 2
 	local spread = 2
 	local colour = {0, 181 / 255, 1, 0.7}
