@@ -13,6 +13,7 @@ local Debris = require("main.modules.debris")
 local EntityClass = require("main.modules.entity_class")
 local DrawItems = require("main.modules.items.draw_items")
 local ItemUse = require("main.modules.items.item_use")
+local ItemClass = require("main.modules.items.item_class")
 
 function Entity:new(data)
 	data = data or {}
@@ -51,7 +52,10 @@ function Entity:new(data)
 				y = data.pos and data.pos.y or 0
 			}
 		},
-
+		health = default(data.health, class.health) or {
+			current = 30,
+			max = 30,
+		},
 		velocity = default(data.velocity, {x = 0, y = 0}),
 		acceleration = default(data.acceleration, class.acceleration or {
 			speed = 500,
@@ -66,6 +70,7 @@ function Entity:new(data)
 			height = 8,
 			width = 8
 		}),
+		knockback = {x = 0, y = 0},
 		colour = default(data.colour, class.colour or {1, 1, 1, 1}),
 		friction = default(data.friction, class.friction or 200),
 		rotation = default(data.rotation, 0),
@@ -137,7 +142,20 @@ function Entity:new(data)
 	end
 
 	function entity:damage(dat)
-		self:kill(dat)
+		self.health.current = self.health.current - dat.damage
+		if self.health.current <= 0 then
+			self:kill(dat)
+		end
+		if dat.source then
+			local dx = self.pos.x - dat.source.pos.x
+			local dy = self.pos.y - dat.source.pos.y
+			local length = math.sqrt(dx * dx + dy * dy)
+			if length > 0 then
+				local force = dat.knockback or 150
+				self.knockback.x = dx / length * force
+				self.knockback.y = dy / length * force
+			end
+		end
 	end
 
 	function entity:kill(dat)
@@ -173,7 +191,13 @@ function Entity:new(data)
 				local mouse_pos = Camera:screen_to_world(InputHandler.mouse.x, InputHandler.mouse.y)
 				self:aim(mouse_pos.x, mouse_pos.y)
 			end
-			ItemUse:update(self, Entity.active)
+			local hits = ItemUse:update(self, Entity.active)
+			if hits then
+				local item = ItemClass[self.holding]
+				for _, hit in ipairs(hits) do
+					hit:damage({ damage = item.attack_damage, source = self })
+				end
+			end
 
 			local speed = self.acceleration.speed
 			if (not InputHandler.keys[hash("a")] and not InputHandler.keys[hash("d")])
@@ -240,6 +264,12 @@ function Entity:new(data)
 			self.velocity.x = self.velocity.x * scale
 			self.velocity.y = self.velocity.y * scale
 		end
+
+		self.pos.x = self.pos.x + self.knockback.x * dt
+		self.pos.y = self.pos.y + self.knockback.y * dt
+		local decay = math.max(0, 1 - 10 * dt)
+		self.knockback.x = self.knockback.x * decay
+		self.knockback.y = self.knockback.y * decay
 
 		if magnitude > 0 and self.has_eyes then
 			self:look_at(self.velocity.x / magnitude, self.velocity.y / magnitude, dt)
