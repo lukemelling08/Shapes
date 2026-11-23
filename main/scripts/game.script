@@ -39,10 +39,6 @@ function on_input(self, action_id, action)
 
 		return  Projectile:fire(EntityClass.BULLET, player, player.pos, player.aim_rotation)
 	end
-
-	if action_id == hash("lmb") and action.pressed then
-		local projectile = fire_projectile()
-	end
 end
 
 function update(self, dt)

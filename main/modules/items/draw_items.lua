@@ -62,8 +62,12 @@ function DrawItems:get_item_sprite(item_id)
 	return sprites[item_id]
 end
 
-function DrawItems:draw_item_sprite(renderer, sprite, origin_x, origin_y, size, flip_x)
+function DrawItems:draw_item_sprite(renderer, sprite, origin_x, origin_y, size, flip_x, rotation)
 	if not sprite then return end
+
+	rotation = rotation or 0
+	local cos = math.cos(rotation)
+	local sin = math.sin(rotation)
 
 	for _, pixel in ipairs(sprite) do
 		local x = pixel.x
@@ -72,12 +76,15 @@ function DrawItems:draw_item_sprite(renderer, sprite, origin_x, origin_y, size, 
 			x = -x
 		end
 
+		local px = x * size
+		local py = pixel.y * size
+
 		renderer:create_shape(
 			size,
 			size,
-			origin_x + x * size,
-			origin_y + pixel.y * size,
-			0,
+			origin_x + px * cos - py * sin,
+			origin_y + px * sin + py * cos,
+			rotation,
 			pixel.colour
 		)
 	end
@@ -91,7 +98,10 @@ function DrawItems:draw_item(renderer, entity, item_id, dt)
 	if not sprite then return end
 
 	local size = 1
-	local flip_x = math.cos(entity.aim_rotation) < 0
+	-- lock facing to where the sweep started so it can't switch sides mid-sweep
+	local attack = entity.sweep or entity.swing
+	local facing_angle = attack and attack.start or entity.aim_rotation
+	local flip_x = math.cos(facing_angle) < 0
 
 	local facing = flip_x and -1 or 1
 	local target_offset = facing * (entity.dimensions.width / 2 + 2)
@@ -103,7 +113,35 @@ function DrawItems:draw_item(renderer, entity, item_id, dt)
 	local origin_x = entity.pos.x + entity.held_item_offset_x
 	local origin_y = entity.pos.y - entity.dimensions.height * 0.3
 
-	self:draw_item_sprite(renderer, sprite, origin_x, origin_y, size, flip_x)
+	-- tilt back while a sweep is held, swing down on release, then ease back to rest
+	local target_tilt = 0
+	local tilt_speed = 12
+	if entity.sweep then
+		-- more sweep = more wind-up, from 10° up to 60° at max_sweep
+		local ratio = math.min(math.abs(entity.sweep.angle) / math.rad(item.max_sweep), 0.2)
+		target_tilt = facing * math.rad(10 + 50 * ratio)
+	elseif entity.swing then
+		target_tilt = -facing * math.rad(90)
+		tilt_speed = 30
+		entity.swing.time = entity.swing.time - dt
+		if entity.swing.time <= 0 then
+			entity.swing = nil
+		end
+	end
+	entity.weapon_tilt = entity.weapon_tilt or 0
+	entity.weapon_tilt = entity.weapon_tilt
+	+ (target_tilt - entity.weapon_tilt) * math.min(1, tilt_speed * dt)
+
+	self:draw_item_sprite(renderer, sprite, origin_x, origin_y, size, flip_x, entity.weapon_tilt)
+
+	if entity.sweep then
+		local radius = 14
+		local steps = 8
+		for i = 0, steps do
+			local a = entity.sweep.start + entity.sweep.angle * (i / steps)
+			renderer:create_shape(1, 1, entity.pos.x + math.cos(a) * radius, entity.pos.y + math.sin(a) * radius, a, {1, 0, 0, 0.6})
+		end
+	end
 end
 
 return DrawItems

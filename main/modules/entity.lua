@@ -12,6 +12,7 @@ local EntityType = require("main.modules.entity_type")
 local Debris = require("main.modules.debris")
 local EntityClass = require("main.modules.entity_class")
 local DrawItems = require("main.modules.items.draw_items")
+local ItemUse = require("main.modules.items.item_use")
 
 function Entity:new(data)
 	data = data or {}
@@ -172,7 +173,8 @@ function Entity:new(data)
 				local mouse_pos = Camera:screen_to_world(InputHandler.mouse.x, InputHandler.mouse.y)
 				self:aim(mouse_pos.x, mouse_pos.y)
 			end
-			
+			ItemUse:update(self, Entity.active)
+
 			local speed = self.acceleration.speed
 			if (not InputHandler.keys[hash("a")] and not InputHandler.keys[hash("d")])
 			or (InputHandler.keys[hash("a")] and InputHandler.keys[hash("d")]) then
