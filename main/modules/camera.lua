@@ -9,8 +9,17 @@ local Camera = {
 	previous_frame_zoom = DEFAULT_ZOOM,
 	rotation = 0,
 	view_w = 640,
-	view_h = 360
+	view_h = 360,
+	shake_time = 0,
+	shake_duration = 0,
+	shake_strength = 0
 }
+
+function Camera:shake(strength, duration)
+	self.shake_strength = strength
+	self.shake_duration = duration
+	self.shake_time = duration
+end
 
 function Camera:move(x, y)
 	self.x = self.x + x
@@ -61,10 +70,18 @@ function Camera:update(dt)
 	local view_w = self.view_w / self.zoom
 	local view_h = self.view_h / self.zoom
 
+	local shake_x, shake_y = 0, 0
+	if self.shake_time > 0 then
+		self.shake_time = self.shake_time - dt
+		local s = self.shake_strength * (self.shake_time / self.shake_duration) -- fades out
+		shake_x = (math.random() * 2 - 1) * s
+		shake_y = (math.random() * 2 - 1) * s
+	end
+
 	go.set("/renderer#mesh", "cam",
 		vmath.vector4(
-			self.x,
-			self.y,
+			self.x + shake_x,
+			self.y + shake_y,
 			2 / view_w,
 			2 / view_h
 		)
